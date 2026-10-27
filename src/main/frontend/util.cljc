@@ -1125,7 +1125,7 @@
                  (or (not start?) (zero? (get-selection-start el))))
         (when-let [scroll-node (app-scroll-container-node el)]
           (let [scroll-top' (.-scrollTop scroll-node)
-                vw-height (if (mobile-util/native-platform?)
+                vw-height (if (mobile-util/native-ios?)
                             (- (.-height js/window.screen) (or @keyboard-height 312))
                             (or (.-height js/window.visualViewport)
                                 (.-clientHeight js/document.documentElement)))

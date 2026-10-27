@@ -236,7 +236,10 @@
 (defevent! :mobile/keyboard-will-show [[_ keyboard-height]]
   (let [_main-node (util/app-scroll-container-node)]
     (when-let [^js html (js/document.querySelector ":root")]
-      (.setProperty (.-style html) "--ls-native-kb-height" (str keyboard-height "px"))
+      ;; Android resizes the WebView above the keyboard natively, so only iOS
+      ;; needs content padded by the keyboard height.
+      (when (mobile-util/native-ios?)
+        (.setProperty (.-style html) "--ls-native-kb-height" (str keyboard-height "px")))
       (.add (.-classList html) "has-mobile-keyboard")
       (.setProperty (.-style html) "--ls-native-toolbar-opacity" 1))
     (when (mobile-util/native-platform?)

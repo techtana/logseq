@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.FrameLayout
 import com.getcapacitor.JSObject
 import com.getcapacitor.Plugin
@@ -70,6 +71,10 @@ class NativeBottomSheetPlugin : Plugin() {
 
             val sheet = BottomSheetDialog(ctx)
             sheet.setContentView(container!!)
+            // Resize the sheet above the keyboard, as the main window does, so the WebView
+            // shrinks and keeps a focused input visible. The default pan can't help: the
+            // focused view is the whole WebView, which is taller than the area left visible.
+            sheet.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
             sheet.setOnShowListener {
                 val bottomSheet = sheet.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
