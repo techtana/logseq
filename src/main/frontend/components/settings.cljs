@@ -660,16 +660,25 @@
                             :ws-url (config/db-sync-ws-url)
                             :http-base (config/db-sync-http-base)}))
 
+(defn <set-sync-server-url!
+  "Saves `url` as the custom sync server URL, or goes back to the official
+   Logseq Sync when `url` is nil, and pushes the change to the db worker."
+  [url]
+  (config/set-custom-sync-server-url! url)
+  (-> (push-sync-config-to-worker!)
+      (p/then #(notification/show! (if url
+                                     (t :settings.sync-server/save-success)
+                                     (t :settings.sync-server/clear-success))
+                                   :success))
+      (p/catch #(notification/show! (str "Failed to update worker: " %) :error))))
+
 (hsx/defc sync-server-url-settings-container
   []
   (let [current-url (config/get-custom-sync-server-url)
         [url set-url!] (hooks/use-state (or current-url ""))
         reset-url! (fn []
-                     (config/set-custom-sync-server-url! nil)
                      (set-url! "")
-                     (-> (push-sync-config-to-worker!)
-                         (p/then #(notification/show! (t :settings.sync-server/clear-success) :success))
-                         (p/catch #(notification/show! (str "Failed to update worker: " %) :error))))]
+                     (<set-sync-server-url! nil))]
     [:div.cp__settings-sync-server-cnt
      [:h1.mb-2.text-2xl.font-bold (t :settings.sync-server/url)]
      [:div.p-2
@@ -691,11 +700,7 @@
                          (reset-url!)
                          (if-not (config/valid-sync-server-url? trimmed)
                            (notification/show! (t :settings.sync-server/url-invalid-error) :error)
-                           (do
-                             (config/set-custom-sync-server-url! trimmed)
-                             (-> (push-sync-config-to-worker!)
-                                 (p/then #(notification/show! (t :settings.sync-server/save-success) :success))
-                                 (p/catch #(notification/show! (str "Failed to update worker: " %) :error))))))))}
+                           (<set-sync-server-url! trimmed)))))}
         (t :ui/save))
        (when (seq url)
          (shui/button
