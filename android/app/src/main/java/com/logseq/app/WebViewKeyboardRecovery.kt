@@ -35,6 +35,8 @@ object WebViewKeyboardRecovery {
             val keyboardVisible = isKeyboardVisible(root, keyboardThreshold)
             if (wasKeyboardVisible && !keyboardVisible) {
                 recoverAfterKeyboardHidden(activity, content, webView)
+            } else if (keyboardVisible) {
+                resetNativeHostState(content, webView)
             }
             wasKeyboardVisible = keyboardVisible
         }

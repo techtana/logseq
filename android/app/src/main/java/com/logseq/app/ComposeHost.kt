@@ -1,9 +1,13 @@
 package com.logseq.app
 
 import android.graphics.Color
+import android.graphics.Rect
 import android.app.Activity
+import android.content.Context
 import android.net.Uri
+import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.FrameLayout
@@ -233,13 +237,13 @@ private fun ComposeNavigationHost(
         ) {
             AndroidView(
                 factory = { context ->
-                    FrameLayout(context).apply {
+                    NonScrollableFrameLayout(context).apply {
                         layoutParams = FrameLayout.LayoutParams(
                             FrameLayout.LayoutParams.MATCH_PARENT,
                             FrameLayout.LayoutParams.MATCH_PARENT
                         )
 
-                        val webContainer = FrameLayout(context).apply {
+                        val webContainer = NonScrollableFrameLayout(context).apply {
                             id = R.id.webview_container
                             layoutParams = FrameLayout.LayoutParams(
                                 FrameLayout.LayoutParams.MATCH_PARENT,
@@ -371,5 +375,27 @@ private fun HandleNavigationEvents(
                 }
             }
         }
+    }
+}
+
+private class NonScrollableFrameLayout @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : FrameLayout(context, attrs, defStyleAttr) {
+
+    override fun requestChildRectangleOnScreen(child: View, rectangle: Rect?, immediate: Boolean): Boolean {
+        // Prevent parent native containers from scrolling/panning the native view hierarchy
+        // when an input inside WebView requests focus. WebView manages its internal
+        // HTML scroll position.
+        return false
+    }
+
+    override fun scrollTo(x: Int, y: Int) {
+        super.scrollTo(0, 0)
+    }
+
+    override fun scrollBy(x: Int, y: Int) {
+        super.scrollTo(0, 0)
     }
 }
