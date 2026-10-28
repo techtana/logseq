@@ -3,10 +3,12 @@
   (:require [clojure.string :as string]
             [frontend.components.dnd :as dnd]
             [frontend.components.email :as email-component]
+            [frontend.components.settings :as settings]
             [frontend.components.user.login :as login]
             [frontend.config :as config]
             [frontend.context.i18n :refer [t]]
             [frontend.dicts :as dicts]
+            [frontend.handler.notification :as notification]
             [frontend.handler.ui :as ui-handler]
             [frontend.handler.user :as user-handler]
             [frontend.rfx :as rfx]
@@ -226,6 +228,67 @@
           :sortable? false
           :toggle-tab! toggle-tab!}))]]))
 
+(hsx/defc sync-server-url-setting
+  []
+  (let [[saved-url set-saved-url!] (hooks/use-state (config/get-custom-sync-server-url))
+        [url set-url!] (hooks/use-state (or saved-url ""))
+        confirm-change! (fn [new-url]
+                          ;; Hide the keyboard so the confirmation isn't covered by it.
+                          (some-> js/document.activeElement (.blur))
+                          (let [confirmed (shui/dialog-confirm!
+                                           nil
+                                           {:title (if new-url
+                                                     (t :settings.sync-server/change-confirm-title new-url)
+                                                     (t :settings.sync-server/reset-confirm-title))
+                                            :outside-cancel? true
+                                            :cancel-label (t :ui/cancel)
+                                            :ok-label (t :ui/confirm)})]
+                            (p/then confirmed
+                                    (fn []
+                                      (set-saved-url! new-url)
+                                      (set-url! (or new-url ""))
+                                      (settings/<set-sync-server-url! new-url)))
+                            ;; Catch on the dialog promise itself: cancel rejects with a falsy
+                            ;; reason, which promesa passes through `p/then` as a success.
+                            (p/catch confirmed
+                                     (fn []
+                                       (set-url! (or saved-url ""))))))
+        save! (fn []
+                (let [trimmed (string/trim url)]
+                  (cond
+                    (string/blank? trimmed)
+                    (when saved-url (confirm-change! nil))
+
+                    (not (config/valid-sync-server-url? trimmed))
+                    (notification/show! (t :settings.sync-server/url-invalid-error) :error)
+
+                    (not= trimmed saved-url)
+                    (confirm-change! trimmed))))]
+    [:div.mobile-setting-item
+     [:div.flex.flex-col.gap-2.w-full
+      [:span.text-base (t :settings.sync-server/url)]
+      [:span.text-sm.opacity-70 (t :settings.sync-server/url-desc)]
+      (shui/input
+       {:type "url"
+        :value url
+        :placeholder config/default-db-sync-http-base
+        :auto-complete "off"
+        :auto-capitalize "off"
+        :spell-check false
+        :enter-key-hint "done"
+        :on-change #(set-url! (util/evalue %))
+        :on-key-down (fn [e]
+                       (when (= "Enter" (.-key e))
+                         (.preventDefault e)
+                         (save!)))})
+      [:div.flex.gap-2
+       (shui/button {:size :sm :on-click save!} (t :ui/save))
+       (when saved-url
+         (shui/button {:size :sm
+                       :variant :outline
+                       :on-click #(confirm-change! nil)}
+                      (t :settings.sync-server/reset)))]]]))
+
 (hsx/defc page
   []
   (let [login? (and (rfx/use-sub [:auth/id-token])
@@ -278,13 +341,7 @@
                     (shui/popup-show! nil (fn [] (log)) {}))}
        [:span.text-base (t :mobile.settings/check-log)]]
 
-      [:div.mobile-setting-item
-       {:on-click #(state/pub-event! [:go/sync-server-settings])}
-       [:span.text-base (t :settings.sync-server/url)]
-       [:span.text-sm.opacity-70
-        (if-let [custom (config/get-custom-sync-server-url)]
-          custom
-          "Logseq Sync")]]
+      (sync-server-url-setting)
 
       (when login?
         [:div.mobile-setting-item

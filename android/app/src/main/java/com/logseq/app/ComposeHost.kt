@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.app.Activity
 import android.net.Uri
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.FrameLayout
@@ -29,6 +30,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.graphics.Insets
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -123,6 +127,40 @@ private fun NavHostController.rebuildBackStack(paths: List<String>) {
             launchSingleTop = true
         }
     }
+}
+
+// The host keeps the WebView clear of the system bars (NavHost padding) and of the keyboard
+// (the SafeArea plugin pads the decor view by the IME height), so the WebView must see no
+// insets here. WebView (M139+) shrinks its visual viewport for insets and for the part of it
+// below its window, and keeps that shrink when moved back from another window, e.g. the
+// settings bottom sheet; the stale shrink shows up as a blank gap above the keyboard.
+private val hostHandledInsetTypes =
+    WindowInsetsCompat.Type.systemBars() or
+        WindowInsetsCompat.Type.displayCutout() or
+        WindowInsetsCompat.Type.ime()
+
+private fun clearHostHandledInsets(insets: WindowInsetsCompat): WindowInsetsCompat =
+    WindowInsetsCompat.Builder(insets)
+        .setInsets(hostHandledInsetTypes, Insets.NONE)
+        .build()
+
+private fun FrameLayout.passClearedInsetsToWebView() {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { _, insets ->
+        clearHostHandledInsets(insets)
+    }
+    // Hand the WebView fresh cleared insets each time it's attached here so it drops any
+    // visual viewport shrink computed in the window it came from.
+    setOnHierarchyChangeListener(object : ViewGroup.OnHierarchyChangeListener {
+        override fun onChildViewAdded(parent: View, child: View) {
+            child.post {
+                ViewCompat.getRootWindowInsets(child)?.let { insets ->
+                    ViewCompat.dispatchApplyWindowInsets(child, clearHostHandledInsets(insets))
+                }
+            }
+        }
+
+        override fun onChildViewRemoved(parent: View, child: View) = Unit
+    })
 }
 
 private fun shouldAnimateNavigation(navigationType: String): Boolean =
@@ -245,6 +283,7 @@ private fun ComposeNavigationHost(
                                 FrameLayout.LayoutParams.MATCH_PARENT,
                                 FrameLayout.LayoutParams.MATCH_PARENT
                             )
+                            passClearedInsetsToWebView()
                         }
 
                         val overlayContainer = FrameLayout(context).apply {

@@ -1784,8 +1784,10 @@
  :settings.general/theme-light "浅色模式"
  :settings.general/theme-system "跟随系统"
 
+ :settings.sync-server/change-confirm-title "使用 {1} 作为同步服务器？"
  :settings.sync-server/clear-success "已清除同步服务器 URL。将使用官方 Logseq Sync。"
  :settings.sync-server/reset "恢复默认值"
+ :settings.sync-server/reset-confirm-title "恢复使用官方 Logseq Sync 服务器？"
  :settings.sync-server/save-success "已保存同步服务器 URL。"
  :settings.sync-server/url "同步服务器 URL"
  :settings.sync-server/url-desc "为自托管同步设置自定义 HTTPS 同步服务器 URL。你的 Logseq 身份验证令牌会发送到该服务器，因此只应使用可信的 URL。留空则使用官方 Logseq Sync。"
