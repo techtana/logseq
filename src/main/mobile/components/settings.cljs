@@ -11,6 +11,7 @@
             [frontend.handler.notification :as notification]
             [frontend.handler.ui :as ui-handler]
             [frontend.handler.user :as user-handler]
+            [frontend.mobile.util :as mobile-util]
             [frontend.rfx :as rfx]
             [frontend.state :as state]
             [frontend.storage :as storage]
@@ -23,6 +24,7 @@
             [mobile.bottom-tabs :as bottom-tabs]
             [mobile.state :as mobile-state]
             [mobile.tabs :as mobile-tabs]
+            [mobile.voice-note :as voice-note]
             [promesa.core :as p]
             [io.factorhouse.hsx.core :as hsx]))
 
@@ -289,6 +291,54 @@
                        :on-click #(confirm-change! nil)}
                       (t :settings.sync-server/reset)))]]]))
 
+(defn- transcription-language-options
+  "Languages labelled in their own language, e.g. \"Deutsch (Deutschland)\"."
+  []
+  (->> voice-note/transcription-languages
+       (map (fn [tag]
+              {:value tag
+               :label (.of (js/Intl.DisplayNames. #js [tag] #js {:type "language"
+                                                                  :languageDisplay "standard"})
+                           tag)}))
+       (sort-by :label)))
+
+(hsx/defc voice-note-settings
+  []
+  (let [[settings set-settings!] (hooks/use-state (voice-note/get-settings))
+        update-setting! (fn [k v]
+                          (let [settings' (assoc settings k v)]
+                            (set-settings! settings')
+                            (voice-note/save-settings! settings')))]
+    [:div.mobile-setting-item
+     [:div.flex.flex-col.gap-2.w-full
+      [:span.text-base (t :mobile.voice-note/title)]
+      [:span.text-sm.opacity-70 (t :mobile.voice-note/desc)]
+      [:label.text-sm.mt-2 {:for "voice-note-parent-block"}
+       (t :mobile.voice-note/parent-block)]
+      (shui/input
+       {:id "voice-note-parent-block"
+        :value (:parent-block settings)
+        :placeholder (t :mobile.voice-note/parent-block-placeholder)
+        :auto-complete "off"
+        :enter-key-hint "done"
+        :on-change #(update-setting! :parent-block (util/evalue %))
+        :on-key-down (fn [e]
+                       (when (= "Enter" (.-key e))
+                         (.preventDefault e)
+                         (.blur (.-target e))))})
+      [:span.text-xs.opacity-70 (t :mobile.voice-note/parent-block-desc)]
+      [:div.flex.items-center.justify-between.gap-2.mt-2
+       [:label.text-sm {:for "voice-note-language"}
+        (t :mobile.voice-note/language)]
+       [:select
+        {:id "voice-note-language"
+         :value (:language settings)
+         :class "text-sm bg-transparent rounded border-none focus:outline-none text-right"
+         :on-change #(update-setting! :language (util/evalue %))}
+        [:option {:value ""} (t :mobile.voice-note/language-device)]
+        (for [{:keys [value label]} (transcription-language-options)]
+          [:option {:key value :value value} label])]]]]))
+
 (hsx/defc page
   []
   (let [login? (and (rfx/use-sub [:auth/id-token])
@@ -340,6 +390,9 @@
        {:on-click (fn []
                     (shui/popup-show! nil (fn [] (log)) {}))}
        [:span.text-base (t :mobile.settings/check-log)]]
+
+      (when (mobile-util/native-android?)
+        (voice-note-settings))
 
       (sync-server-url-setting)
 

@@ -40,6 +40,7 @@
                                        (registerPlugin "NativeSelectionActionBarPlugin")))
 (defonce ios-utils (when (native-ios?) (registerPlugin "Utils")))
 (defonce android-utils (when (native-android?) (registerPlugin "Utils")))
+(defonce voice-note (when (native-android?) (registerPlugin "VoiceNote")))
 
 (defonce ios-content-size-listener nil)
 
