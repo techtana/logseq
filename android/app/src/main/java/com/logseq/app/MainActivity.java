@@ -41,6 +41,7 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(NativeSelectionActionBarPlugin.class);
         registerPlugin(LiquidTabsPlugin.class);
         registerPlugin(Utils.class);
+        registerPlugin(VoiceNotePlugin.class);
 
         super.onCreate(savedInstanceState);
         // @capacitor/app installs its own OnBackPressedCallback during plugin load (inside

@@ -4,4 +4,6 @@
     <string name="title_activity_main">Logseq</string>
     <string name="package_name">com.logseq.app</string>
     <string name="custom_url_scheme">com.logseq.app</string>
+    <string name="voice_note_widget_label">Voice note</string>
+    <string name="voice_note_widget_description">Dictate a note into today\'s journal</string>
 </resources>

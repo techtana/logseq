@@ -80,6 +80,9 @@
           (and (= hostname "mobile") (= pathname "/go/quick-add"))
           (state/pub-event! [:mobile/set-tab "capture"])
 
+          (and (= hostname "mobile") (= pathname "/go/voice-note"))
+          (state/pub-event! [:mobile/start-voice-note])
+
           (= hostname "graph")
           (let [graph-name (some-> pathname
                                    (string/replace "/" "")
