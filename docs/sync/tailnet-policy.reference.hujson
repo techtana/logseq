@@ -1,0 +1,35 @@
+// Redacted REFERENCE copy of the tailnet policy entries for the Logseq sync server.
+// The Tailscale admin console is the only live copy; nothing syncs this file to Tailscale.
+// See self-hosted-access.md. Replace <owner-login> with the owner's tailnet sign-in
+// when pasting into the console; never commit the real value.
+{
+  "groups": {
+    "group:owner": ["<owner-login>"],
+  },
+
+  // Only the owner may tag a device as the Logseq sync server.
+  "tagOwners": {
+    "tag:logseq": ["group:owner"],
+  },
+
+  "grants": [
+    // Owner's devices may reach the sync server over HTTPS (Tailscale Serve), nothing else.
+    {
+      "src": ["group:owner"],
+      "dst": ["tag:logseq"],
+      "ip":  ["tcp:443"],
+    },
+    // Other apps' grants (front-door plan) go here. Do not keep a "*" -> "*" rule.
+  ],
+
+  // No Tailscale SSH to the sync VM: admin access goes through Google IAP.
+
+  // Checked by Tailscale on every save.
+  "tests": [
+    {
+      "src":    "<owner-login>",
+      "accept": ["tag:logseq:443"],
+      "deny":   ["tag:logseq:22", "tag:logseq:8787"],
+    },
+  ],
+}
