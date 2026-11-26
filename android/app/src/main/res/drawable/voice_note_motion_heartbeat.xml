@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A heartbeat trace sweeping away from the mic over a faint track. Drawn for the right of the mic. -->
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="48dp"
+            android:height="32dp"
+            android:viewportWidth="36"
+            android:viewportHeight="24">
+            <path
+                android:pathData="M1,13H9.5L12,8L15.5,19L19,3.5L22,16L24,13H35"
+                android:strokeWidth="2"
+                android:strokeAlpha="0.35"
+                android:strokeColor="#FFFFFFFF"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round" />
+            <path
+                android:name="trace"
+                android:pathData="M1,13H9.5L12,8L15.5,19L19,3.5L22,16L24,13H35"
+                android:strokeWidth="2"
+                android:strokeColor="#FFFFFFFF"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"
+                android:trimPathEnd="0" />
+        </vector>
+    </aapt:attr>
+    <target android:name="trace">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1800"
+                android:interpolator="@android:interpolator/linear"
+                android:repeatCount="infinite">
+                <propertyValuesHolder
+                    android:propertyName="trimPathEnd"
+                    android:valueType="floatType">
+                    <keyframe android:fraction="0" android:value="0" />
+                    <keyframe android:fraction="0.6" android:value="1" />
+                    <keyframe android:fraction="1" android:value="1" />
+                </propertyValuesHolder>
+                <propertyValuesHolder
+                    android:propertyName="trimPathStart"
+                    android:valueType="floatType">
+                    <keyframe android:fraction="0" android:value="0" />
+                    <keyframe android:fraction="0.15" android:value="0" />
+                    <keyframe android:fraction="0.75" android:value="1" />
+                    <keyframe android:fraction="1" android:value="1" />
+                </propertyValuesHolder>
+            </objectAnimator>
+        </aapt:attr>
+    </target>
+</animated-vector>

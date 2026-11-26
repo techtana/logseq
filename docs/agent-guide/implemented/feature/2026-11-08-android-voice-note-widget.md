@@ -35,6 +35,25 @@ settings for where the note goes and which language it's transcribed in.
   language, either a BCP 47 tag from `voice-note/transcription-languages` or
   empty for the device default.
 
+## Motion beside the mic
+
+- The widget is 2x1 by default and can be resized down to 1x1. The mic has a
+  slot on each side for an animated icon: sound waves, equalizer, heartbeat,
+  arrows, sparkles, music notes, a GIF the user picks, or nothing.
+- Each widget has its own settings (`VoiceNoteWidgetConfigActivity`): the
+  motion, its sides (left, right or both) and its direction. With both sides
+  the icons can be mirrored (pointing away from or toward the mic) or point
+  the same way (both right or both left). With one side they point away from
+  or toward the mic. A live preview builds the real widget views.
+- The settings open when the widget is placed. On Android 12+ they're optional
+  there (`configuration_optional`) and open again from the widget's settings
+  on the home screen (`reconfigurable`). A widget that was never configured
+  shows sound waves on both sides, pointing away from the mic.
+- Settings are stored per widget id in the `voice_note_widget` shared
+  preferences, and GIF frames as PNGs under `files/voice_note_widget/<id>/`.
+  They're removed with the widget and moved to the new ids when widgets are
+  restored from a backup.
+
 ## Native plugin
 
 `VoiceNotePlugin` (`VoiceNote`) wraps `SpeechRecognizer` with
@@ -77,7 +96,30 @@ settings for where the note goes and which language it's transcribed in.
   on API 33+). Labels are endonyms from `Intl.DisplayNames`, so they need no
   translation keys.
 
+- **Animated icons are animated vector drawables in an indeterminate
+  `ProgressBar`.** App widgets can't start an `ImageView`'s animation, but a
+  `ProgressBar` starts any `Animatable` indeterminate drawable when it's
+  shown, and stops it when it isn't. The animators repeat forever on the
+  RenderThread. They're drawn pointing right, and a wrapper layout with
+  `scaleX="-1"` mirrors them, so each icon needs one drawable and one layout.
+- **A GIF plays as frames in a `ViewFlipper`.** Widgets can't decode GIFs.
+  The picked GIF is sampled with `android.graphics.Movie` (deprecated, but
+  the only platform decoder that can seek) into at most 30 frames, at least
+  60 ms apart, scaled to fit 32x64 dp. Both sides add the same `Bitmap`
+  objects, which `RemoteViews` sends once.
+- **Store access stays on the main thread**, where the widget provider runs,
+  so an update never reads GIF frames while they're being replaced. Writing
+  30 small PNGs on Save takes a moment at most.
+
 ## Limits
+
+- Animated icons stay still when animations are turned off on the phone
+  (animator duration scale 0); the settings screen says so. GIFs still play.
+- Frames are sampled at even intervals, so GIFs with uneven frame delays play
+  at an average speed, and GIFs longer than about 2 seconds drop frames.
+- Mirrored music notes have their flags on the wrong side.
+- On Android 11 and older the settings only open when the widget is placed;
+  changing them means placing the widget again.
 
 - Phrases are joined with spaces, which reads oddly for languages written
   without them, such as Chinese and Japanese.
@@ -95,3 +137,7 @@ created, a blank parent giving a top-level note, Discard deleting the note,
 a failed write keeping the session open, finishing with no speech, status
 changes from recognizer events, listening time, default settings, and the
 deeplink.
+
+The widget's motion icons and settings screen have no automated tests; the
+Android app has no instrumentation tests. They were checked by building the
+app and by playing the drawables' animations in a browser.

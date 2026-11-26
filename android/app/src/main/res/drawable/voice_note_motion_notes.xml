@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Two music notes bobbing and swaying next to the mic.
+     Note shape: Material Icons "music_note" (Apache License 2.0). -->
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="32dp"
+            android:height="32dp"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <group
+                android:name="note1"
+                android:pivotX="12"
+                android:pivotY="12"
+                android:rotation="-10"
+                android:scaleX="0.72"
+                android:scaleY="0.72"
+                android:translateX="-4.5"
+                android:translateY="-1.5">
+                <path
+                    android:fillColor="#FFFFFFFF"
+                    android:pathData="M12,3v10.55c-0.59,-0.34 -1.27,-0.55 -2,-0.55 -2.21,0 -4,1.79 -4,4s1.79,4 4,4 4,-1.79 4,-4V7h4V3h-6z" />
+            </group>
+            <group
+                android:name="note2"
+                android:pivotX="12"
+                android:pivotY="12"
+                android:rotation="10"
+                android:scaleX="0.55"
+                android:scaleY="0.55"
+                android:translateX="5.5"
+                android:translateY="3.5">
+                <path
+                    android:fillColor="#FFFFFFFF"
+                    android:pathData="M12,3v10.55c-0.59,-0.34 -1.27,-0.55 -2,-0.55 -2.21,0 -4,1.79 -4,4s1.79,4 4,4 4,-1.79 4,-4V7h4V3h-6z" />
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="note1">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="700"
+                    android:interpolator="@android:interpolator/accelerate_decelerate"
+                    android:propertyName="translateY"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:valueFrom="-1.5"
+                    android:valueTo="-4"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:interpolator="@android:interpolator/accelerate_decelerate"
+                    android:propertyName="rotation"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:valueFrom="-10"
+                    android:valueTo="10"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="note2">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="700"
+                    android:interpolator="@android:interpolator/accelerate_decelerate"
+                    android:propertyName="translateY"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:valueFrom="3.5"
+                    android:valueTo="1"
+                    android:valueType="floatType" />
+                <objectAnimator
+                    android:duration="700"
+                    android:interpolator="@android:interpolator/accelerate_decelerate"
+                    android:propertyName="rotation"
+                    android:repeatCount="infinite"
+                    android:repeatMode="reverse"
+                    android:valueFrom="10"
+                    android:valueTo="-10"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

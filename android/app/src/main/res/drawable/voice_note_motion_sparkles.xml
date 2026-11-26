@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Three sparkles twinkling and turning next to the mic. -->
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="32dp"
+            android:height="32dp"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <group
+                android:name="sparkle1"
+                android:scaleX="5.5"
+                android:scaleY="5.5"
+                android:translateX="8"
+                android:translateY="9">
+                <path
+                    android:fillColor="#FFFFFFFF"
+                    android:pathData="M0,-1C0.12,-0.12 0.12,-0.12 1,0C0.12,0.12 0.12,0.12 0,1C-0.12,0.12 -0.12,0.12 -1,0C-0.12,-0.12 -0.12,-0.12 0,-1Z" />
+            </group>
+            <group
+                android:name="sparkle2"
+                android:scaleX="4"
+                android:scaleY="4"
+                android:translateX="17.5"
+                android:translateY="14">
+                <path
+                    android:fillColor="#FFFFFFFF"
+                    android:pathData="M0,-1C0.12,-0.12 0.12,-0.12 1,0C0.12,0.12 0.12,0.12 0,1C-0.12,0.12 -0.12,0.12 -1,0C-0.12,-0.12 -0.12,-0.12 0,-1Z" />
+            </group>
+            <group
+                android:name="sparkle3"
+                android:scaleX="2.8"
+                android:scaleY="2.8"
+                android:translateX="9"
+                android:translateY="19.5">
+                <path
+                    android:fillColor="#FFFFFFFF"
+                    android:pathData="M0,-1C0.12,-0.12 0.12,-0.12 1,0C0.12,0.12 0.12,0.12 0,1C-0.12,0.12 -0.12,0.12 -1,0C-0.12,-0.12 -0.12,-0.12 0,-1Z" />
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="sparkle1">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="1600"
+                    android:interpolator="@android:interpolator/linear"
+                    android:repeatCount="infinite">
+                    <propertyValuesHolder
+                        android:propertyName="scaleX"
+                        android:valueType="floatType">
+                        <keyframe android:fraction="0" android:value="5.5" />
+                        <keyframe android:fraction="0.05" android:value="5.5" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="0.25" android:value="2.2" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="0.45" android:value="5.5" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="1" android:value="5.5" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                    </propertyValuesHolder>
+                    <propertyValuesHolder
+                        android:propertyName="scaleY"
+                        android:valueType="floatType">
+                        <keyframe android:fraction="0" android:value="5.5" />
+                        <keyframe android:fraction="0.05" android:value="5.5" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="0.25" android:value="2.2" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="0.45" android:value="5.5" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="1" android:value="5.5" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                    </propertyValuesHolder>
+                </objectAnimator>
+                <objectAnimator
+                    android:duration="3200"
+                    android:interpolator="@android:interpolator/linear"
+                    android:propertyName="rotation"
+                    android:repeatCount="infinite"
+                    android:valueFrom="0"
+                    android:valueTo="90"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="sparkle2">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="1600"
+                    android:interpolator="@android:interpolator/linear"
+                    android:repeatCount="infinite">
+                    <propertyValuesHolder
+                        android:propertyName="scaleX"
+                        android:valueType="floatType">
+                        <keyframe android:fraction="0" android:value="4" />
+                        <keyframe android:fraction="0.35" android:value="4" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="0.55" android:value="1.6" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="0.75" android:value="4" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="1" android:value="4" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                    </propertyValuesHolder>
+                    <propertyValuesHolder
+                        android:propertyName="scaleY"
+                        android:valueType="floatType">
+                        <keyframe android:fraction="0" android:value="4" />
+                        <keyframe android:fraction="0.35" android:value="4" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="0.55" android:value="1.6" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="0.75" android:value="4" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="1" android:value="4" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                    </propertyValuesHolder>
+                </objectAnimator>
+                <objectAnimator
+                    android:duration="2400"
+                    android:interpolator="@android:interpolator/linear"
+                    android:propertyName="rotation"
+                    android:repeatCount="infinite"
+                    android:valueFrom="0"
+                    android:valueTo="-90"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+    <target android:name="sparkle3">
+        <aapt:attr name="android:animation">
+            <set>
+                <objectAnimator
+                    android:duration="1600"
+                    android:interpolator="@android:interpolator/linear"
+                    android:repeatCount="infinite">
+                    <propertyValuesHolder
+                        android:propertyName="scaleX"
+                        android:valueType="floatType">
+                        <keyframe android:fraction="0" android:value="2.8" />
+                        <keyframe android:fraction="0.6" android:value="2.8" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="0.8" android:value="1.12" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="1" android:value="2.8" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                    </propertyValuesHolder>
+                    <propertyValuesHolder
+                        android:propertyName="scaleY"
+                        android:valueType="floatType">
+                        <keyframe android:fraction="0" android:value="2.8" />
+                        <keyframe android:fraction="0.6" android:value="2.8" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="0.8" android:value="1.12" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                        <keyframe android:fraction="1" android:value="2.8" android:interpolator="@android:interpolator/fast_out_slow_in" />
+                    </propertyValuesHolder>
+                </objectAnimator>
+                <objectAnimator
+                    android:duration="1600"
+                    android:interpolator="@android:interpolator/linear"
+                    android:propertyName="rotation"
+                    android:repeatCount="infinite"
+                    android:valueFrom="0"
+                    android:valueTo="90"
+                    android:valueType="floatType" />
+            </set>
+        </aapt:attr>
+    </target>
+</animated-vector>

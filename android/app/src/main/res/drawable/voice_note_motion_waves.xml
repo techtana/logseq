@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sound waves rippling away from the mic. Drawn for the right of the mic. -->
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:width="28dp"
+            android:height="32dp"
+            android:viewportWidth="21"
+            android:viewportHeight="24">
+            <path
+                android:name="wave1"
+                android:pathData="M2.71,6A9,9 0,0 1,2.71,18"
+                android:strokeWidth="2"
+                android:strokeAlpha="0.4"
+                android:strokeColor="#FFFFFFFF"
+                android:strokeLineCap="round" />
+            <path
+                android:name="wave2"
+                android:pathData="M8,3A15,15 0,0 1,8,21"
+                android:strokeWidth="2"
+                android:strokeAlpha="0.4"
+                android:strokeColor="#FFFFFFFF"
+                android:strokeLineCap="round" />
+            <path
+                android:name="wave3"
+                android:pathData="M13.89,1A21,21 0,0 1,13.89,23"
+                android:strokeWidth="2"
+                android:strokeAlpha="0.4"
+                android:strokeColor="#FFFFFFFF"
+                android:strokeLineCap="round" />
+        </vector>
+    </aapt:attr>
+    <target android:name="wave1">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1500"
+                android:interpolator="@android:interpolator/linear"
+                android:repeatCount="infinite">
+                <propertyValuesHolder
+                    android:propertyName="strokeAlpha"
+                    android:valueType="floatType">
+                    <keyframe android:fraction="0" android:value="0.4" />
+                    <keyframe android:fraction="0.12" android:value="1" />
+                    <keyframe android:fraction="0.42" android:value="0.4" />
+                    <keyframe android:fraction="1" android:value="0.4" />
+                </propertyValuesHolder>
+            </objectAnimator>
+        </aapt:attr>
+    </target>
+    <target android:name="wave2">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1500"
+                android:interpolator="@android:interpolator/linear"
+                android:repeatCount="infinite">
+                <propertyValuesHolder
+                    android:propertyName="strokeAlpha"
+                    android:valueType="floatType">
+                    <keyframe android:fraction="0" android:value="0.4" />
+                    <keyframe android:fraction="0.16" android:value="0.4" />
+                    <keyframe android:fraction="0.28" android:value="1" />
+                    <keyframe android:fraction="0.58" android:value="0.4" />
+                    <keyframe android:fraction="1" android:value="0.4" />
+                </propertyValuesHolder>
+            </objectAnimator>
+        </aapt:attr>
+    </target>
+    <target android:name="wave3">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1500"
+                android:interpolator="@android:interpolator/linear"
+                android:repeatCount="infinite">
+                <propertyValuesHolder
+                    android:propertyName="strokeAlpha"
+                    android:valueType="floatType">
+                    <keyframe android:fraction="0" android:value="0.4" />
+                    <keyframe android:fraction="0.32" android:value="0.4" />
+                    <keyframe android:fraction="0.44" android:value="1" />
+                    <keyframe android:fraction="0.74" android:value="0.4" />
+                    <keyframe android:fraction="1" android:value="0.4" />
+                </propertyValuesHolder>
+            </objectAnimator>
+        </aapt:attr>
+    </target>
+</animated-vector>
