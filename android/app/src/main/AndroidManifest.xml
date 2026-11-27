@@ -68,6 +68,20 @@
                 android:resource="@xml/voice_note_widget_info" />
         </receiver>
 
+        <!-- Its own task, so finishing it returns to the home screen, not to Logseq. -->
+        <activity
+            android:name="com.logseq.app.VoiceNoteWidgetConfigActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|screenLayout|uiMode|density"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:label="@string/voice_note_widget_settings_title"
+            android:taskAffinity=""
+            android:theme="@style/VoiceNoteWidgetConfigTheme">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

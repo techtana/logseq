@@ -6,4 +6,35 @@
     <string name="custom_url_scheme">com.logseq.app</string>
     <string name="voice_note_widget_label">Voice note</string>
     <string name="voice_note_widget_description">Dictate a note into today\'s journal</string>
+
+    <!-- Voice note widget settings -->
+    <string name="voice_note_widget_settings_title">Voice note widget</string>
+    <string name="voice_note_widget_motion">Motion beside the mic</string>
+    <string name="voice_note_widget_motion_none">None</string>
+    <string name="voice_note_widget_motion_waves">Sound waves</string>
+    <string name="voice_note_widget_motion_equalizer">Equalizer</string>
+    <string name="voice_note_widget_motion_heartbeat">Heartbeat</string>
+    <string name="voice_note_widget_motion_arrows">Arrows</string>
+    <string name="voice_note_widget_motion_sparkles">Sparkles</string>
+    <string name="voice_note_widget_motion_notes">Music notes</string>
+    <string name="voice_note_widget_motion_gif">Your GIF</string>
+    <string name="voice_note_widget_choose_gif">Choose a GIF</string>
+    <string name="voice_note_widget_change_gif">Choose another GIF</string>
+    <string name="voice_note_widget_gif_needed">Choose a GIF to show beside the mic.</string>
+    <string name="voice_note_widget_gif_loading">Reading the GIF…</string>
+    <string name="voice_note_widget_gif_error">Couldn\'t read that GIF. Try a different or smaller one.</string>
+    <string name="voice_note_widget_sides">Sides</string>
+    <string name="voice_note_widget_side_left">Left</string>
+    <string name="voice_note_widget_side_right">Right</string>
+    <string name="voice_note_widget_side_both">Both</string>
+    <string name="voice_note_widget_direction">Direction</string>
+    <string name="voice_note_widget_direction_outward">Away from the mic</string>
+    <string name="voice_note_widget_direction_inward">Toward the mic</string>
+    <string name="voice_note_widget_direction_mirrored_outward">Mirrored, away from the mic</string>
+    <string name="voice_note_widget_direction_mirrored_inward">Mirrored, toward the mic</string>
+    <string name="voice_note_widget_direction_same_right">Same direction, to the right</string>
+    <string name="voice_note_widget_direction_same_left">Same direction, to the left</string>
+    <string name="voice_note_widget_animations_off">Animations are turned off on this phone, so the icons stay still. GIFs still play.</string>
+    <string name="voice_note_widget_cancel">Cancel</string>
+    <string name="voice_note_widget_save">Save</string>
 </resources>

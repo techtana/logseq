@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Holds one motion icon or GIF next to the mic, drawn as designed (pointing right). -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/voice_note_motion_frame"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />

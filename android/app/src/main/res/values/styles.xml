@@ -19,6 +19,21 @@
         <item name="android:statusBarColor">@color/colorPrimary</item>
     </style>
 
+    <!-- Voice note widget settings screen -->
+    <style name="VoiceNoteWidgetConfigTheme" parent="Theme.Material3.DayNight.NoActionBar" />
+
+    <!-- An animated icon beside the voice note widget's mic. An indeterminate
+         ProgressBar starts its animated vector drawable, which app widgets
+         can't do with an ImageView. -->
+    <style name="VoiceNoteMotion">
+        <item name="android:indeterminateOnly">true</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:maxWidth">48dp</item>
+        <item name="android:maxHeight">32dp</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+
     <!-- App Starting -->
     <style name="AppTheme.NoActionBarLaunch" parent="Theme.SplashScreen">
         <item name="android:windowBackground">@drawable/splash_centered</item>

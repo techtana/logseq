@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="com.logseq.app.VoiceNoteWidgetConfigActivity"
     android:description="@string/voice_note_widget_description"
     android:initialLayout="@layout/voice_note_widget"
-    android:minWidth="40dp"
+    android:minWidth="110dp"
     android:minHeight="40dp"
+    android:minResizeWidth="40dp"
+    android:minResizeHeight="40dp"
     android:previewLayout="@layout/voice_note_widget"
     android:resizeMode="horizontal|vertical"
-    android:targetCellWidth="1"
+    android:targetCellWidth="2"
     android:targetCellHeight="1"
     android:updatePeriodMillis="0"
-    android:widgetCategory="home_screen" />
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable|configuration_optional" />
